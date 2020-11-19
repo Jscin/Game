@@ -30,13 +30,34 @@
 import turtle, math, random
 
 class FootBall:
-    def __init__(self, x):
-        self.x = x
-        self.draw_player()
-    def draw_player(self):
+    def __init__(self):
+        self.draw_field()
+        rand_distance = self.rand_dis()
+        self.draw_player(rand_distance[0])
+        self.draw_player(rand_distance[1])
+
+    def rand_dis(self):
+        # Generates two random numbers
+        x_one = random.randint(-300, 300)
+        x_two = random.randint(-300, 300)
+        # If the numbers are equal to or within 50 units of eachother regenerate the numbers
+        if x_one == x_two or x_one > x_two -50 or x_two < x_one - 50:
+            self.rand_dis()
+        else:
+            # Return a tuple
+            return x_one, x_two
+
+    def draw_field(self):
+        turtle.penup()
+        turtle.goto(-500, 0)
+        turtle.pendown()
+        turtle.forward(1000)
+
+
+    def draw_player(self, x):
         # Set the player location
         turtle.penup()
-        turtle.goto(self.x, 0)
+        turtle.goto(x, 70)
         turtle.pendown()
         # Draw the main body
         turtle.right(90)
@@ -55,8 +76,21 @@ class FootBall:
         turtle.left(-45)
         turtle.forward(50)
         # Draw left arm
-        turtle.
+        turtle.left(135)
+        turtle.forward(25)
+        turtle.left(180)
+        turtle.forward(25)
+        # Draw throwing arm (right arm)
+        turtle.right(35)
+        turtle.forward(25)
+        turtle.right(180)
+        turtle.forward(25)
+        # Draw head
+        turtle.right(180)
+        turtle.circle(10)
+        turtle.penup()
+
 
 if __name__ == "__main__":
-    game = FootBall(random.randint(5, 20))
+    game = FootBall()
     
