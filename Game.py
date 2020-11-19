@@ -91,12 +91,12 @@ class FootBall:
                 # Draws the arc
                 turtle.goto(int(X), int(Y))
                 # Checks if the ball is inside the hitbox
-            elif (Xr - int(turtle.xcor())) < 25 and (Yr - int(turtle.ycor())) < 75:
-                print("Congrats!")
-                break
+                if (Xr - int(turtle.xcor())) < 40 and (Yr - int(turtle.ycor())) < 75:
+                    print("Congrats!")
+                    break
             else:
-                # Print the distance the player missed by
-                print("You missed by " + str(abs(int(self.distance_between - turtle.xcor()))) + " meters.")
+                # Print the distance the player missed. Assuming 1 meter = 25 pixles
+                print("You missed by " + str(abs(int(self.distance_between - turtle.xcor()) // 25)) + " meters.")
                 break
             t += 1
  
@@ -151,7 +151,6 @@ class FootBall:
         # Return the position
         return X_pos, Y_pos
 
-
 if __name__ == "__main__":
     # Set important variables
     game = FootBall()
@@ -161,19 +160,27 @@ if __name__ == "__main__":
     print("Distance between Quarterback and Reciever:", game.distance_between)
     # Game Loop
     while not end_game and tries < 3:
-        # Velocity and Angle input
-        V = float(input("Enter Velocity: "))
-        A = int(input("Enter Angle: "))
+        # Velocity and Angle input and handles potential Value Errors
+        try:
+            V = float(input("Enter Velocity: "))
+            A = int(input("Enter Angle: "))
+        except ValueError:
+            print("Invalid input detected please try again.")
+            continue
         # Draw Throw arc
         game.throw_football(V, A)
         # Ask if player wants to continue
         check = input("Tries:" + str(3 - tries) + " Enter Y if you want to retry or N if you want to quit: ").capitalize()
         if check == "Y":
-            end_game = False
             tries += 1
             # Print Number of tries left
             print("Tries left:", 3 - tries)
         elif check == "N":
             end_game = True
+        else:
+            # Assume Y if something other than y or n is entered
+            tries += 1
+            print("Tries left:", 3 - tries)
+            continue
     
     
